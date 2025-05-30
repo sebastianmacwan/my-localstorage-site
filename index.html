@@ -1,6 +1,42 @@
-
-<!DOCTYPE html>
+  <!-- subject field added -->
+   <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>My React App</title></head>
-<body><div id="root"></div><script src="assets/index-18c445d8.js"></script></body>
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Form</title>
+</head>
+<body>
+<form id="contactForm">
+  <input type="text" name="name" placeholder="Your Name" required><br><br>
+  <input type="email" name="email" placeholder="Your Email" required><br><br>
+  <input type="text" name="subject" placeholder="Message Subject" required><br><br>
+  <textarea name="message" placeholder="Your Message" required></textarea><br><br>
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  const form = document.getElementById('contactForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch('http://localhost:3000/send_mail', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert('Message sent successfully!');
+      form.reset();
+    } else {
+      alert('Failed to send message.');
+    }
+  });
+</script>
+
+</body>
 </html>
